@@ -6,6 +6,7 @@ import helpers.WordValidator;
 import models.Word;
 import repositories.WordsRepository;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class WordsService {
@@ -36,7 +37,11 @@ public class WordsService {
     }
 
     public List<Word> addWordsList(List<String> words) {
-        return null;
+        List<Word> wordsAdded = new LinkedList<>();
+        for (String word: words) {
+            wordsAdded.add(addNewWord(word));
+        }
+        return wordsAdded;
     }
     public long getWordsSum(){
         return wordsRepository.getWordsSum();

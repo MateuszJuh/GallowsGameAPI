@@ -20,6 +20,7 @@ public class WordsServiceTest {
     private WordsService wordsService;
     private List<Word> wordList;
     private String notExistingWord = "notExistingWord";
+    private String antoherNotExistingWord = "anotherNotExistingWord";
     private String existingWord = "first";
     private String invalidWord = "invalid word";
 
@@ -40,7 +41,8 @@ public class WordsServiceTest {
         Mockito.when(wordsRepository.getWordById(2)).thenReturn(wordList.get(1));
         Mockito.when(wordsRepository.getWordById(3)).thenThrow(new WordNotFoundException("word not found"));
         Mockito.when(wordsRepository.addWord(new Word(notExistingWord))).thenReturn(true);
-        Mockito.when(wordsRepository.addWord(new Word(existingWord))).thenThrow(new WordAlreadyExistsException("word alreadu added"));
+        Mockito.when(wordsRepository.addWord(new Word(antoherNotExistingWord))).thenReturn(true);
+        Mockito.when(wordsRepository.addWord(new Word(existingWord))).thenThrow(new WordAlreadyExistsException("word already added"));
         Mockito.when(wordsRepository.getWordsSum()).thenReturn(2L);
     }
 
