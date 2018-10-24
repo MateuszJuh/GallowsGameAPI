@@ -1,6 +1,7 @@
 package repositories;
 
 import com.sun.jersey.spi.inject.Inject;
+import exceptions.WordAlreadyExistsException;
 import models.Word;
 
 import javax.persistence.EntityManager;
@@ -24,7 +25,21 @@ public class WordsRepository {
         Query nativeQuery = entityManager.createNativeQuery("SELECT COUNT (id) FROM words");
         return (Long)nativeQuery.getSingleResult();
     }
-    public boolean addWord(String word){
-        return false;
+    public boolean addWord(Word word){
+        if(!contains(word.getWord())){
+            entityManager.persist(word);
+            return true;
+        }else {
+            throw new WordAlreadyExistsException("Word: " + word.getWord() + " already exists");
+        }
+    }
+
+    private boolean contains(String word){
+        Query nativeQuery = entityManager.createNativeQuery("SELECT * FROM words WHERE word=" + word);
+        if(nativeQuery.getMaxResults()>0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

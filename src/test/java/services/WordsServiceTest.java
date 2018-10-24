@@ -39,8 +39,8 @@ public class WordsServiceTest {
         Mockito.when(wordsRepository.getWordById(1)).thenReturn(wordList.get(0));
         Mockito.when(wordsRepository.getWordById(2)).thenReturn(wordList.get(1));
         Mockito.when(wordsRepository.getWordById(3)).thenThrow(new WordNotFoundException("word not found"));
-        Mockito.when(wordsRepository.addWord(notExistingWord)).thenReturn(true);
-        Mockito.when(wordsRepository.addWord(existingWord)).thenThrow(new WordAlreadyExistsException("word alreadu added"));
+        Mockito.when(wordsRepository.addWord(new Word(notExistingWord))).thenReturn(true);
+        Mockito.when(wordsRepository.addWord(new Word(existingWord))).thenThrow(new WordAlreadyExistsException("word alreadu added"));
         Mockito.when(wordsRepository.getWordsSum()).thenReturn(2L);
     }
 
@@ -105,7 +105,7 @@ public class WordsServiceTest {
         //when
         wordsService.addWordsList(wordsToAdd);
         //then
-        Mockito.verify(wordsRepository, Mockito.times(2)).addWord(Matchers.anyString());
+        Mockito.verify(wordsRepository, Mockito.times(2)).addWord(Matchers.any());
     }
 
     @Test(expected = WordAlreadyExistsException.class)

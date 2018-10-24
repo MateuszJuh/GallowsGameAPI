@@ -1,5 +1,8 @@
 package services;
 
+import exceptions.DatabaseError;
+import exceptions.InvalidWordException;
+import helpers.WordValidator;
 import models.Word;
 import repositories.WordsRepository;
 
@@ -21,7 +24,15 @@ public class WordsService {
     }
 
     public Word addNewWord(String wordToAdd) {
-        return null;
+        if(!WordValidator.isWordValid(wordToAdd)){
+            throw new InvalidWordException("Given word: "+wordToAdd+" is invalid");
+        }
+        Word word = new Word(wordToAdd);
+        if(wordsRepository.addWord(word)){
+            return word;
+        }else {
+            throw new DatabaseError();
+        }
     }
 
     public List<Word> addWordsList(List<String> words) {
