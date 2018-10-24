@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Word {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String word;
 
