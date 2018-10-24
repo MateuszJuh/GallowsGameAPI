@@ -15,7 +15,7 @@ public class WordsController {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Word> getAllWords(){ //TODO getAllWords()
+    public List<Word> getAllWords(){ //TODO checkAllWords()
         return wordsService.getAllWords();
     }
 

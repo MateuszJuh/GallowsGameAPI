@@ -27,6 +27,7 @@ public class WordsServiceTest {
     public void prepare(){
         wordsRepository = Mockito.mock(WordsRepository.class);
         wordsService = new WordsService(wordsRepository);
+        wordList = new LinkedList<Word>();
         wordList.add(new Word(1, "first"));
         wordList.add(new Word(2, "second"));
         prepareMocks();

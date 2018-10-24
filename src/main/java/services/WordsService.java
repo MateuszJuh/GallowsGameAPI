@@ -13,11 +13,11 @@ public class WordsService {
     }
 
     public List<Word> getAllWords() {
-        return null;
+        return wordsRepository.getAllWords();
     }
 
     public Word getWordById(long id) {
-        return null;
+        return wordsRepository.getWordById(id);
     }
 
     public Word addNewWord(String wordToAdd) {
@@ -28,6 +28,6 @@ public class WordsService {
         return null;
     }
     public long getWordsSum(){
-        return 0;
+        return wordsRepository.getWordsSum();
     }
 }
