@@ -20,10 +20,24 @@ public class WordsController {
     }
 
     @GET
+    @Path("/count")
+    @Produces(MediaType.APPLICATION_JSON)
+    public long getWordsSum(){
+        return wordsService.getWordsSum();
+    }
+
+    @GET
     @Path("/id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Word getWordById(@PathParam("id") long id){//TODO check getWordById()
         return wordsService.getWordById(id);
+    }
+
+    @GET
+    @Path("/random")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Word getRandomWord(){
+        return wordsService.getRandomWord();
     }
 
     @POST

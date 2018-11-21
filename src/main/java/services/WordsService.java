@@ -8,6 +8,7 @@ import repositories.WordsRepository;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class WordsService {
     private WordsRepository wordsRepository;
@@ -46,4 +47,10 @@ public class WordsService {
     public long getWordsSum(){
         return wordsRepository.getWordsSum();
     }
+
+    public Word getRandomWord() {
+        long wordsSum = wordsRepository.getWordsSum();
+        long randNum = ThreadLocalRandom.current().nextLong(1,wordsSum);
+        return wordsRepository.getWordAtRow(randNum);
+        }
 }

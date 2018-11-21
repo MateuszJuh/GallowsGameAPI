@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
+
 public class WordsRepository {
 
     EntityManager entityManager = Persistence.createEntityManagerFactory("WordsPersistenceUnit").createEntityManager();
@@ -29,7 +30,8 @@ public class WordsRepository {
 
     public long getWordsSum(){
         Query nativeQuery = entityManager.createNativeQuery("SELECT COUNT (id) FROM words");
-        return (Long)nativeQuery.getSingleResult();
+        BigInteger result = (BigInteger)nativeQuery.getSingleResult();
+        return result.longValue();
     }
     public boolean addWord(Word word){
         if(!containsWord(word.getWord())){
@@ -62,5 +64,11 @@ public class WordsRepository {
         }else {
             return false;
         }
+    }
+
+    public Word getWordAtRow(long randNum) {
+        String queryStr = ("SELECT * FROM words OFFSET " + randNum + " LIMIT 1");
+        Query query = entityManager.createNativeQuery(queryStr, Word.class);
+        return (Word)query.getSingleResult();
     }
 }
