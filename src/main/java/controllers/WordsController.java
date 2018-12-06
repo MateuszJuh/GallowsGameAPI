@@ -15,7 +15,7 @@ public class WordsController {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Word> getAllWords(){ //TODO check getAllWords()
+    public List<Word> getAllWords(){
         return wordsService.getAllWords();
     }
 
@@ -29,7 +29,7 @@ public class WordsController {
     @GET
     @Path("/id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Word getWordById(@PathParam("id") long id){//TODO check getWordById()
+    public Word getWordById(@PathParam("id") long id){
         return wordsService.getWordById(id);
     }
 
@@ -43,7 +43,7 @@ public class WordsController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Word addNewWord(String wordToAdd){//TODO check addNewWord
+    public Word addNewWord(String wordToAdd){
         return wordsService.addNewWord(wordToAdd);
     }
 
@@ -51,7 +51,7 @@ public class WordsController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
-    public List<Word> addWordsList(List<String> words){//TODO check addWordsList
+    public List<Word> addWordsList(List<String> words){
         return wordsService.addWordsList(words);
     }
 }
