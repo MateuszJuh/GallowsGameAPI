@@ -4,6 +4,7 @@ import exceptions.WordAlreadyExistsException;
 import exceptions.WordNotFoundException;
 import models.Word;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
@@ -11,7 +12,7 @@ import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
-
+@Stateless
 public class WordsRepository {
 
     EntityManager entityManager = Persistence.createEntityManagerFactory("WordsPersistenceUnit").createEntityManager();
@@ -36,10 +37,7 @@ public class WordsRepository {
     public boolean addWord(Word word){
         if(!containsWord(word.getWord())){
             EntityTransaction transaction = entityManager.getTransaction();
-            transaction.begin();
             entityManager.persist(word);
-            entityManager.flush();
-            transaction.commit();
             return true;
         }else {
             throw new WordAlreadyExistsException("Word: " + word.getWord() + " already exists");

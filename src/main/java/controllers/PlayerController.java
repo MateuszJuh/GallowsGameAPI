@@ -1,20 +1,39 @@
 package controllers;
 
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import repositories.PlayerRepository;
+import services.PlayerService;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("login/")
+@Path("player/")
 public class PlayerController { //TODO PlayerController
 
-    @GET
+    private PlayerService playerService = new PlayerService(new PlayerRepository());
+
+    @POST
+    @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public boolean login(String encodedToken){
         return false;
     }
 
+
+    @POST
+    @Path("register")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean register(String encodedToken){
+        return playerService.register(encodedToken);
+    }
+
+    @POST
+    @Path("increase")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public int increaseScore(String encodedToken){
+        return playerService.increaseScore(encodedToken);
+    }
 }
