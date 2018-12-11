@@ -51,7 +51,11 @@ public class PlayerService {
         }
     }
 
-    public int increaseScore(String encodedToken) {//TODO increase score
-        return 0;
+    public int increaseScore(String encodedToken) {
+        if(authenticateUserToken(encodedToken)){
+            return playerRepository.increaseScoreByUsername(decodeToken(encodedToken).getUsername());
+        }else {
+            return 0;
+        }
     }
 }

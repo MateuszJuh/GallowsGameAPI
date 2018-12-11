@@ -8,7 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("player/")
-public class PlayerController { //TODO PlayerController
+public class PlayerController {
 
     private PlayerService playerService = new PlayerService(new PlayerRepository());
 
@@ -17,9 +17,8 @@ public class PlayerController { //TODO PlayerController
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public boolean login(String encodedToken){
-        return false;
+        return playerService.authenticateUserToken(encodedToken);
     }
-
 
     @POST
     @Path("register")

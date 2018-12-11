@@ -8,7 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 @Stateless
-public class PlayerRepository {//TODO PlayerRepository
+public class PlayerRepository {
 
     EntityManager entityManager = Persistence.createEntityManagerFactory("WordsPersistenceUnit").createEntityManager();
 
@@ -25,5 +25,14 @@ public class PlayerRepository {//TODO PlayerRepository
 
     public Player getUserByUsername(String s) {
         return new Player();
+    }
+
+    public int increaseScoreByUsername(String username) {
+        Query query = entityManager.createQuery("select p from Player p where p.username = :username");
+        query.setParameter("username", username);
+        Player user = (Player) query.getSingleResult();
+        user.setScore(user.getScore()+1);
+        entityManager.merge(user);
+        return user.getScore();
     }
 }
