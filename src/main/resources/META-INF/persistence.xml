@@ -7,6 +7,7 @@
     <persistence-unit name="WordsPersistenceUnit">
         <jta-data-source>java:/PostgresDS</jta-data-source>
         <class>models.Word</class>
+        <class>models.Player</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/> <!-- DB Driver -->

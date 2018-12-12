@@ -1,13 +1,13 @@
 package models;
 
-public class Token {
+public class RequestToken {
     private String username;
     private String passwordHash;
 
-    public Token() {
+    public RequestToken() {
     }
 
-    public Token(String username, String passwordHash) {
+    public RequestToken(String username, String passwordHash) {
         this.username = username;
         this.passwordHash = passwordHash;
     }

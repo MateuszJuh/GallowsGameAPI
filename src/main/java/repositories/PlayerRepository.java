@@ -28,11 +28,16 @@ public class PlayerRepository {
     }
 
     public int increaseScoreByUsername(String username) {
-        Query query = entityManager.createQuery("select p from Player p where p.username = :username");
-        query.setParameter("username", username);
-        Player user = (Player) query.getSingleResult();
+        Player user = getUserByUsername(username);
         user.setScore(user.getScore()+1);
         entityManager.merge(user);
         return user.getScore();
+    }
+
+    public Player getPlayerByName(String username) {
+        Query query = entityManager.createQuery("select p from Player p where p.username = :username");
+        query.setParameter("username", username);
+        Player user = (Player) query.getSingleResult();
+        return user;
     }
 }

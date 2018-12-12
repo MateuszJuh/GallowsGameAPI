@@ -1,16 +1,16 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Table( name = "players")
 public class Player {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String userName;
+    private String username;
     private int score;
     private String password;
 
@@ -19,7 +19,7 @@ public class Player {
     }
 
     public Player(String userName, String password) {
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
     }
 
@@ -31,12 +31,12 @@ public class Player {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getScore() {
@@ -53,5 +53,21 @@ public class Player {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return id == player.id &&
+                score == player.score &&
+                Objects.equals(username, player.username) &&
+                Objects.equals(password, player.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, score, password);
     }
 }

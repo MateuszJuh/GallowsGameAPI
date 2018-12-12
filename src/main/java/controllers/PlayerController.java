@@ -1,6 +1,8 @@
 package controllers;
 
 
+import models.Player;
+import models.ResponsePlayerToken;
 import repositories.PlayerRepository;
 import services.PlayerService;
 
@@ -16,23 +18,38 @@ public class PlayerController {
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public boolean login(String encodedToken){
-        return playerService.authenticateUserToken(encodedToken);
+    public ResponsePlayerToken login(Token encodedToken){
+        return playerService.login(encodedToken.getToken());
     }
 
     @POST
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public boolean register(String encodedToken){
-        return playerService.register(encodedToken);
+    public ResponsePlayerToken register(Token encodedToken){
+        return playerService.register(encodedToken.getToken());
     }
 
     @POST
     @Path("increase")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public int increaseScore(String encodedToken){
-        return playerService.increaseScore(encodedToken);
+    public ResponsePlayerToken increaseScore(Token encodedToken){
+        return playerService.increaseScore(encodedToken.getToken());
+    }
+
+    public static class Token{
+       private String token;
+
+        public Token() {
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
     }
 }
