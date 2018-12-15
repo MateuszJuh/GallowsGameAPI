@@ -2,19 +2,21 @@ package helpers;
 
 import models.Player;
 import models.PlayerDto;
-import models.ResponsePlayerToken;
 
-import java.util.Optional;
 import java.util.function.Function;
 
-public class PlayerToPlayerDtoMapper implements Function<Player, ResponsePlayerToken> {
+public class PlayerToPlayerDtoMapper implements Function<Player, PlayerDto> {
+
     @Override
-    public ResponsePlayerToken apply(Player player) {
-        ResponsePlayerToken responsePlayerToken = new ResponsePlayerToken();
-        responsePlayerToken.setPlayerDto(Optional.of(new PlayerDto()));
-        responsePlayerToken.getPlayerDto().get().setId(player.getId());
-        responsePlayerToken.getPlayerDto().get().setScore(player.getScore());
-        responsePlayerToken.getPlayerDto().get().setUsername(player.getUsername());
-        return responsePlayerToken;
+    public PlayerDto apply(Player player) {
+        PlayerDto playerDto = new PlayerDto();
+        playerDto.setUsername(player.getUsername());
+        if(player.getScore()!=0){
+            playerDto.setScore(player.getScore());
+        }
+        if(player.getId()!=0){
+            playerDto.setId(player.getId());
+        }
+        return playerDto;
     }
 }

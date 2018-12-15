@@ -37,7 +37,9 @@ public class WordsRepository {
     public boolean addWord(Word word){
         if(!containsWord(word.getWord())){
             EntityTransaction transaction = entityManager.getTransaction();
+            transaction.begin();
             entityManager.persist(word);
+            transaction.commit();
             return true;
         }else {
             throw new WordAlreadyExistsException("Word: " + word.getWord() + " already exists");

@@ -4,7 +4,7 @@ import exceptions.InvalidTokenFormat;
 import helpers.PlayerToPlayerDtoMapper;
 import models.Player;
 import models.RequestToken;
-import models.ResponsePlayerToken;
+import models.ResponseWithPlayer;
 import org.mindrot.jbcrypt.BCrypt;
 import repositories.PlayerRepository;
 
@@ -19,22 +19,23 @@ public class PlayerService {
         playerToPlayerDtoMapper = new PlayerToPlayerDtoMapper();
     }
 
-    public ResponsePlayerToken login(String token){
-        ResponsePlayerToken responsePlayerToken = new ResponsePlayerToken();
+    public ResponseWithPlayer login(String token){
+        ResponseWithPlayer response = new ResponseWithPlayer();
         if(authenticateUserToken(token)) {
-            playerToPlayerDtoMapper.apply(playerRepository.getUserByUsername(decodeToken(token).getUsername()));
-            responsePlayerToken.setOperationSuccessful(true);
+            response.setPlayerDto(playerToPlayerDtoMapper.apply(playerRepository.getUserByUsername(decodeToken(token).getUsername())));
+            response.setOperationSuccessful(true);
         }else {
-            responsePlayerToken.setOperationSuccessful(false);
+            response.setOperationSuccessful(false);
+            response.setMessage("Invalid username or password");
         }
-        return responsePlayerToken;
+        return response;
     }
 
-    public boolean authenticateUserToken(String token){
+    private boolean authenticateUserToken(String token){
         RequestToken decodedToken = decodeToken(token);
         if(playerRepository.containsUser(decodedToken.getUsername())){
             Player player = playerRepository.getUserByUsername(decodedToken.getUsername());
-            if(BCrypt.checkpw(player.getPassword(), decodedToken.getPasswordHash())){
+            if(BCrypt.checkpw(decodedToken.getPassword(), player.getPassword())){
                 return true;
             }else {
                 return false;
@@ -44,18 +45,27 @@ public class PlayerService {
         }
     }
 
-    public ResponsePlayerToken register(String encodedToken) {
+    public ResponseWithPlayer register(String encodedToken) {
         RequestToken decoded = decodeToken(encodedToken);
-        ResponsePlayerToken responsePlayerToken = new ResponsePlayerToken();
+        ResponseWithPlayer response = new ResponseWithPlayer();
         if(!playerRepository.containsUser(decoded.getUsername())){
-            if(playerRepository.registerUser(new Player(decoded.getUsername(), decoded.getPasswordHash()))){
-                responsePlayerToken = playerToPlayerDtoMapper.apply(playerRepository.getPlayerByName(decoded.getUsername()));
-                responsePlayerToken.setOperationSuccessful(true);
+            Player playerToRegister = preparePlayerToRegister(decoded);
+            if(playerRepository.registerUser(playerToRegister)){
+                response.setPlayerDto(playerToPlayerDtoMapper.apply(playerRepository.getPlayerByName(decoded.getUsername())));
+                response.setOperationSuccessful(true);
             }
         }else {
-            responsePlayerToken.setOperationSuccessful(false);
+            response.setOperationSuccessful(false);
+            response.setMessage("Username already in use");
         }
-        return responsePlayerToken;
+        return response;
+    }
+
+    private Player preparePlayerToRegister(RequestToken decoded) {
+        Player playerToRegister = new Player();
+        playerToRegister.setPassword(BCrypt.hashpw(decoded.getPassword(), BCrypt.gensalt()));
+        playerToRegister.setUsername(decoded.getUsername());
+        return playerToRegister;
     }
 
     private RequestToken decodeToken(String token){
@@ -72,15 +82,15 @@ public class PlayerService {
         }
     }
 
-    public ResponsePlayerToken increaseScore(String encodedToken) {
-        ResponsePlayerToken responsePlayerToken = new ResponsePlayerToken();
+    public ResponseWithPlayer increaseScore(String encodedToken) {
+        ResponseWithPlayer response = new ResponseWithPlayer();
         if(authenticateUserToken(encodedToken)){
-            responsePlayerToken = playerToPlayerDtoMapper.apply(playerRepository.getPlayerByName(decodeToken(encodedToken).getUsername()));
-            responsePlayerToken.setOperationSuccessful(true);
-            return responsePlayerToken;
+            response.setPlayerDto(playerToPlayerDtoMapper.apply(playerRepository.getPlayerByName(decodeToken(encodedToken).getUsername())));
+            response.setOperationSuccessful(true);
         }else {
-            responsePlayerToken.setOperationSuccessful(false);
-            return responsePlayerToken;
+            response.setOperationSuccessful(false);
+            response.setMessage("User authentication fail");
         }
+        return response;
     }
 }

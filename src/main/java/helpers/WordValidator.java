@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public class WordValidator {
     public static boolean isWordValid(String word){
         if(word==null || word.trim().isEmpty()){
+            System.out.println("invalid");
             return false;
         }
         Pattern alphabeticPattern = Pattern.compile("[a-zA-Z]*");

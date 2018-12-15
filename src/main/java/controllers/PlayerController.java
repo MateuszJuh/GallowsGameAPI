@@ -1,8 +1,7 @@
 package controllers;
 
 
-import models.Player;
-import models.ResponsePlayerToken;
+import models.ResponseWithPlayer;
 import repositories.PlayerRepository;
 import services.PlayerService;
 
@@ -18,7 +17,7 @@ public class PlayerController {
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponsePlayerToken login(Token encodedToken){
+    public ResponseWithPlayer login(Token encodedToken){
         return playerService.login(encodedToken.getToken());
     }
 
@@ -26,7 +25,7 @@ public class PlayerController {
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponsePlayerToken register(Token encodedToken){
+    public ResponseWithPlayer register(Token encodedToken){
         return playerService.register(encodedToken.getToken());
     }
 
@@ -34,7 +33,7 @@ public class PlayerController {
     @Path("increase")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponsePlayerToken increaseScore(Token encodedToken){
+    public ResponseWithPlayer increaseScore(Token encodedToken){
         return playerService.increaseScore(encodedToken.getToken());
     }
 

@@ -1,11 +1,10 @@
 package models;
 
-import java.util.Optional;
-
-public class ResponsePlayerToken {
+public class ResponseWithPlayer {
 
     private boolean isOperationSuccessful;
-    private Optional<PlayerDto> playerDto;
+    private PlayerDto playerDto;
+    private String message;
 
     public boolean isOperationSuccessful() {
         return isOperationSuccessful;
@@ -15,11 +14,19 @@ public class ResponsePlayerToken {
         isOperationSuccessful = operationSuccessful;
     }
 
-    public Optional<PlayerDto> getPlayerDto() {
+    public PlayerDto getPlayerDto() {
         return playerDto;
     }
 
-    public void setPlayerDto(Optional<PlayerDto> playerDto) {
+    public void setPlayerDto(PlayerDto playerDto) {
         this.playerDto = playerDto;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
