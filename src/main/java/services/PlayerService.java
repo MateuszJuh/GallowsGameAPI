@@ -85,6 +85,7 @@ public class PlayerService {
     public ResponseWithPlayer increaseScore(String encodedToken) {
         ResponseWithPlayer response = new ResponseWithPlayer();
         if(authenticateUserToken(encodedToken)){
+            playerRepository.increaseScoreByUsername(decodeToken(encodedToken).getUsername());
             response.setPlayerDto(playerToPlayerDtoMapper.apply(playerRepository.getPlayerByName(decodeToken(encodedToken).getUsername())));
             response.setOperationSuccessful(true);
         }else {
