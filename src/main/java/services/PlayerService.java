@@ -68,13 +68,13 @@ public class PlayerService {
         return playerToRegister;
     }
 
-    private RequestToken decodeToken(String token){
+    public RequestToken decodeToken(String token){
         byte[] decodedBytes = Base64.getDecoder().decode(token);
         String decodedString = new String(decodedBytes);
         if(decodedString.contains(":")){
             String[] split = decodedString.split(":");
             if(split.length!=2){
-                throw new InvalidTokenFormat("RequestToken must be formatted (before encoding) like: \"<username>:<passwordHash>\"");
+                throw new InvalidTokenFormat("RequestToken must be formatted (before encoding) like: \"<username>:<password>\"");
             }
             return new RequestToken(split[0], split[1]);
         }else {
